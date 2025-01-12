@@ -13,10 +13,12 @@ import { useEffect, useState } from "react";
 export default function StudentList({ route }) {
   const navigation = useNavigation();
   const [myStudents, setMyStudents] = useState(students);
+  const [rerender, setRerender] = useState(false);
 
   useEffect(() => {
     if (route.params?.newStudent) {
       setMyStudents((prev) => [...prev, route.params.newStudent]);
+      setRerender(!rerender);
     }
   }, [route.params?.newStudent]);
 
@@ -25,6 +27,7 @@ export default function StudentList({ route }) {
       <FlatList
         data={myStudents}
         keyExtractor={(item) => item.id}
+        extraData={rerender}
         renderItem={({ item }) => (
           <TouchableOpacity
             onPress={() => navigation.navigate("Profile", { student: item })}
