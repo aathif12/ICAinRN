@@ -5,8 +5,8 @@ export default function Profile({ route }) {
   return (
     <View style={styles.contanier}>
       <Text>Name:{student.name}</Text>
-      <Text>gender:{student.name}</Text>
-      <Text>age:{student.name}</Text>
+      <Text>gender:{student.gender}</Text>
+      <Text>age:{student.age}</Text>
       <Image
         style={styles.image}
         source={student.profile_pic}

@@ -8,25 +8,37 @@ import {
 } from "react-native";
 import { students } from "./StudentsDb";
 import { useNavigation } from "@react-navigation/native";
+import { useEffect, useState } from "react";
 
-export default function StudentList() {
+export default function StudentList({ route }) {
   const navigation = useNavigation();
+  const [myStudents, setMyStudents] = useState(students);
+
+  useEffect(() => {
+    if (route.params?.newStudent) {
+      setMyStudents((prev) => [...prev, route.params.newStudent]);
+    }
+  }, [route.params?.newStudent]);
+
   return (
     <View style={styles.container}>
       <FlatList
-        data={students}
+        data={myStudents}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <TouchableOpacity
             onPress={() => navigation.navigate("Profile", { student: item })}
           >
-            <Text style={styles.item}> {item.name}</Text>
+            <Text style={styles.item}>{item.name}</Text>
           </TouchableOpacity>
         )}
       />
-      <Button style={styles.button} onPress={navigation.navigate("Add")}>
-        Add Student
-      </Button>
+      <TouchableOpacity
+        style={styles.addButton}
+        onPress={() => navigation.navigate("Add")}
+      >
+        <Text style={styles.addButtonText}>Add Student</Text>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -36,6 +48,20 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingTop: 22,
   },
-  item: { padding: 10, fontSize: 24, height: 44 },
-  button: { width: "50px", height: "50px" },
+  item: {
+    padding: 10,
+    fontSize: 24,
+    height: 44,
+  },
+  addButton: {
+    backgroundColor: "#008CBA",
+    padding: 10,
+    margin: 20,
+    alignItems: "center",
+    borderRadius: 5,
+  },
+  addButtonText: {
+    color: "#fff",
+    fontSize: 18,
+  },
 });
