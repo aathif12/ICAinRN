@@ -20,7 +20,7 @@ export default function AddStudents() {
     };
 
     // Navigate back and pass data (example method)
-    navigation.navigate("StudentsList", { newStudent });
+    navigation.popTo("StudentsList", { newStudent });
   };
 
   return (
